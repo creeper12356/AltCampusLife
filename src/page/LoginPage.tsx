@@ -5,11 +5,11 @@ import {
   Provider,
   Toast,
 } from '@ant-design/react-native';
-import { BackHandler, View } from 'react-native';
+import { login } from '@creeper12356/altcampuslifeservice';
+import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
-import {login} from '../service/user.ts';
-import {useNavigation} from '@react-navigation/native';
-import {UserContext} from '../lib/context.ts';
+import { BackHandler, View } from 'react-native';
+import { UserContext } from '../lib/context.ts';
 const LoginPage = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -40,6 +40,7 @@ const LoginPage = () => {
         navigation.navigate('Charge');
       })
       .catch(e => {
+        console.log(e)
         Toast.fail({content: '登录失败！' + JSON.stringify(e)});
       });
   };

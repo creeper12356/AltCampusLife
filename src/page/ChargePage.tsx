@@ -1,22 +1,22 @@
 import { Button, InputItem, List, Provider, Text, Toast } from '@ant-design/react-native';
-import { SafeAreaView, View } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from 'react';
-import { doCharge, getChargeStatus } from '../service/charge.ts';
-import { UserContext } from '../lib/context.ts';
-import { ChargeStatusDataResult } from '../model/ChargeStatusDataResult.ts';
+import { SafeAreaView, View } from 'react-native';
 import ChargeStatusDataResultList from '../component/ChargeStatusDataResultList.tsx';
 import PrivateLayout from '../component/PrivateLayout.tsx';
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { UserContext } from '../lib/context.ts';
+import { ChargeStatusDataResult } from '../model/ChargeStatusDataResult.ts';
+import { doCharge, getChargeStatus } from '../service/charge.ts';
 
 const ChargePage = () => {
-  const {userId, setUserId} = useContext(UserContext);
+  const { userId, setUserId } = useContext(UserContext);
   const [inputValue, setInputValue] = useState('');
   const [chargeStatusDataResult, setChargeStatusDataResult] =
     useState<ChargeStatusDataResult | null>(null);
   const navigation = useNavigation();
   const refreshChargeStatus = () => {
     console.log('refresh');
-    getChargeStatus(userId).then(result => {
+    getChargeStatus().then(result => {
       if (result.state === '1') {
         setChargeStatusDataResult(result.data.result1[0]);
       } else {
@@ -33,12 +33,12 @@ const ChargePage = () => {
     setInputValue(numericValue);
   };
   const handleDoCharge = () => {
-    doCharge(Number(inputValue), userId)
+    doCharge(Number(inputValue))
       .then(result => {
-        Toast.info({content: JSON.stringify(result)});
+        Toast.info({ content: JSON.stringify(result) });
       })
       .catch(e => {
-        Toast.fail({content: JSON.stringify(e)});
+        Toast.fail({ content: JSON.stringify(e) });
       })
       .finally(() => {
         refreshChargeStatus();
@@ -48,18 +48,18 @@ const ChargePage = () => {
     <Provider>
       <SafeAreaView>
         <PrivateLayout>
-          <Button type="primary" style={{alignSelf: 'flex-end', height: '5%'}} onPress={() => {
-              setUserId(0);
-              navigation.navigate('Login');
+          <Button type="primary" style={{ alignSelf: 'flex-end'}} onPress={() => {
+            setUserId(0);
+            navigation.navigate('Login');
           }}>登出</Button>
-          <View style={{height: '45%'}}>
+          <View style={{ height: '50%' }}>
             {chargeStatusDataResult != null && (
               <ChargeStatusDataResultList
                 result={chargeStatusDataResult as ChargeStatusDataResult}
               />
             )}
           </View>
-          <View style={{height: '50%', justifyContent: 'flex-end'}}>
+          <View style={{ height: '50%', justifyContent: 'flex-end' }}>
             <Text>{userId}</Text>
             <List>
               <InputItem
