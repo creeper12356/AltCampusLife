@@ -1,14 +1,13 @@
-// import ChargePileInfo from '../model/ChargePileInfo.ts';
 import { CHARGE_URL, postOrder, postOrderWithUserId } from "@creeper12356/altcampuslifeservice";
-import { ChargeStatusInfo } from "../model/ChargeStatusInfo.ts";
+import { ChargeStatusInfo } from "../model/ChargeStatusInfo";
+import { LoginInfo } from "@creeper12356/altcampuslifeservice";
 
 export const doCharge = async (qrcode: number) => {
   const doChargeResult = await postOrderWithUserId(CHARGE_URL, {
     ordertype: 'docharge',
     qrcode: qrcode,
     origin: 'cloud',
-  });
-  // @ts-ignore
+  }) as LoginInfo;
   if (doChargeResult.state !== '1') {
     throw doChargeResult;
   }

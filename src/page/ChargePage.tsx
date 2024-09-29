@@ -1,15 +1,13 @@
-import { Button, InputItem, List, Provider, Text, Toast } from '@ant-design/react-native';
+import { Button, InputItem, List, Provider, Toast } from '@ant-design/react-native';
 import { useNavigation } from "@react-navigation/native";
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View } from 'react-native';
 import ChargeStatusDataResultList from '../component/ChargeStatusDataResultList.tsx';
-import PrivateLayout from '../component/PrivateLayout.tsx';
-import { UserContext } from '../lib/context.ts';
 import { ChargeStatusDataResult } from '../model/ChargeStatusDataResult.ts';
 import { doCharge, getChargeStatus } from '../service/charge.ts';
+import { logout } from '@creeper12356/altcampuslifeservice';
 
 const ChargePage = () => {
-  const { userId, setUserId } = useContext(UserContext);
   const [inputValue, setInputValue] = useState('');
   const [chargeStatusDataResult, setChargeStatusDataResult] =
     useState<ChargeStatusDataResult | null>(null);
@@ -47,35 +45,32 @@ const ChargePage = () => {
   return (
     <Provider>
       <SafeAreaView>
-        <PrivateLayout>
-          <Button type="primary" style={{ alignSelf: 'flex-end'}} onPress={() => {
-            setUserId(0);
-            navigation.navigate('Login');
-          }}>登出</Button>
-          <View style={{ height: '50%' }}>
-            {chargeStatusDataResult != null && (
-              <ChargeStatusDataResultList
-                result={chargeStatusDataResult as ChargeStatusDataResult}
-              />
-            )}
-          </View>
-          <View style={{ height: '50%', justifyContent: 'flex-end' }}>
-            <Text>{userId}</Text>
-            <List>
-              <InputItem
-                clear
-                autoFocus={false}
-                type="number"
-                onChangeText={handleChange}
-                value={inputValue}
-                placeholder="输入序列号后8位"
-              />
-              <Button type="primary" onPress={handleDoCharge}>
-                {chargeStatusDataResult == null ? '充电' : '充电中'}
-              </Button>
-            </List>
-          </View>
-        </PrivateLayout>
+        <Button type="primary" style={{ alignSelf: 'flex-end' }} onPress={() => {
+          logout();
+          navigation.navigate('Login');
+        }}>登出</Button>
+        <View style={{ height: '50%' }}>
+          {chargeStatusDataResult != null && (
+            <ChargeStatusDataResultList
+              result={chargeStatusDataResult as ChargeStatusDataResult}
+            />
+          )}
+        </View>
+        <View style={{ height: '50%', justifyContent: 'flex-end' }}>
+          <List>
+            <InputItem
+              clear
+              autoFocus={false}
+              type="number"
+              onChangeText={handleChange}
+              value={inputValue}
+              placeholder="输入序列号后8位"
+            />
+            <Button type="primary" onPress={handleDoCharge}>
+              {chargeStatusDataResult == null ? '充电' : '充电中'}
+            </Button>
+          </List>
+        </View>
       </SafeAreaView>
     </Provider>);
 };

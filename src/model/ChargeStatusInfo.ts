@@ -1,4 +1,4 @@
-import {ChargeStatusDataResult} from './ChargeStatusDataResult.ts';
+import {ChargeStatusDataResult} from './ChargeStatusDataResult';
 
 export interface ChargeStatusInfo {
   state: string;
