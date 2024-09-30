@@ -7,12 +7,13 @@ import {
 } from '@ant-design/react-native';
 import { login } from '@creeper12356/altcampuslifeservice';
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BackHandler, View } from 'react-native';
+import { NavigationProps } from './RootStackParamList';
 const LoginPage = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
   useEffect(() => {
     // 响应返回键按下，退出应用
     const backAction = () => {

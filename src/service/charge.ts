@@ -1,13 +1,12 @@
 import { CHARGE_URL, postOrder, postOrderWithUserId } from "@creeper12356/altcampuslifeservice";
 import { ChargeStatusInfo } from "../model/ChargeStatusInfo";
-import { LoginInfo } from "@creeper12356/altcampuslifeservice";
 
 export const doCharge = async (qrcode: number) => {
   const doChargeResult = await postOrderWithUserId(CHARGE_URL, {
     ordertype: 'docharge',
     qrcode: qrcode,
     origin: 'cloud',
-  }) as LoginInfo;
+  }) as ChargeStatusInfo; //TODO: 修改此处
   if (doChargeResult.state !== '1') {
     throw doChargeResult;
   }
@@ -30,6 +29,24 @@ export const getChargeList = async () => {
   });
   return getChargeListResult;
 };
+
+export const getPriceInfo = async () => {
+  const result = await postOrderWithUserId(CHARGE_URL, {
+    ordertype: 'priceinfo',
+    origin: 'cloud',
+  });
+  return result;
+}
+
+export const getChargeRecords = async () => {
+  const result = await postOrderWithUserId(CHARGE_URL, {
+    ordertype: 'chargerecords',
+    origin: 'cloud',
+    yy: '2024',
+    mm: '05',
+  });
+  return result;
+}
 // export const getChargePileList = async (
 //   rid: number,
 // ): Promise<ChargePileInfo[]> => {
