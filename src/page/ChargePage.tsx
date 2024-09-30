@@ -1,18 +1,18 @@
 import { Button, InputItem, List, Provider, Toast } from '@ant-design/react-native';
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { PermissionsAndroid, SafeAreaView, View } from 'react-native';
 import ChargeStatusDataResultList from '../component/ChargeStatusDataResultList.tsx';
 import { ChargeStatusDataResult } from '../model/ChargeStatusDataResult.ts';
 import { doCharge, getChargeStatus } from '../service/charge.ts';
-import { logout } from '@creeper12356/altcampuslifeservice';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { NavigationProps } from './RootStackParamList.ts';
 
 const ChargePage = () => {
-  const [inputValue, setInputValue] = useState('');
   const [chargeStatusDataResult, setChargeStatusDataResult] =
-    useState<ChargeStatusDataResult | null>(null);
+  useState<ChargeStatusDataResult | null>(null);
+  const route = useRoute();
+  const {qrcode} = route.params as {qrcode: string};
+  const [inputValue, setInputValue] = useState(qrcode);
   const navigation = useNavigation<NavigationProps>();
   const refreshChargeStatus = () => {
     console.log('refresh');
@@ -69,6 +69,19 @@ const ChargePage = () => {
             </Button>
           </List>
         </View>
+        <Button onPress={async () => {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.CAMERA,
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            //跳转至扫码组件，即可开始扫码
+            navigation.navigate('Camera');
+          } else {
+            console.log('拒绝');
+            return;
+          }
+        }}>扫码</Button>
+
       </SafeAreaView>
     </Provider>);
 };

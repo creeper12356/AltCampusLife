@@ -33,7 +33,7 @@ const LoginPage = () => {
       .then(result => {
         console.log(JSON.stringify(result));
         Toast.success({ content: '登录成功！' });
-        navigation.navigate('Charge');
+        navigation.navigate('Charge', {qrcode: ''});
       })
       .catch(e => {
         console.log(e)
