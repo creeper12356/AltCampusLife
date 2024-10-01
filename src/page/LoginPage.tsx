@@ -6,32 +6,20 @@ import {
   Toast,
 } from '@ant-design/react-native';
 import { login } from '@creeper12356/altcampuslifeservice';
-import React, { useEffect, useState } from 'react';
-import { BackHandler, View } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View } from 'react-native';
 import { NavigationProps } from './RootStackParamList';
-const LoginPage = ({navigation}: {navigation: NavigationProps}) => {
+import { LoggedInContext } from '../context/LoggedInContext';
+const LoginPage = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  useEffect(() => {
-    // 响应返回键按下，退出应用
-    const backAction = () => {
-      BackHandler.exitApp();
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove();
-  }, []);
+  const {setLoggedIn} = useContext(LoggedInContext);
   const handleLogin = (username: string, password: string) => {
     login(username, password)
       .then(result => {
         console.log(JSON.stringify(result));
         Toast.success({ content: '登录成功！' });
-        navigation.navigate('Charge');
+        setLoggedIn(true);
       })
       .catch(e => {
         console.log(e)

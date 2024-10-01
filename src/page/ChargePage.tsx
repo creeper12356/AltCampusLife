@@ -5,9 +5,9 @@ import { PermissionsAndroid, SafeAreaView, View } from 'react-native';
 import ChargeStatusDataResultList from '../component/ChargeStatusDataResultList.tsx';
 import { ChargeStatusDataResult } from '../model/ChargeStatusDataResult.ts';
 import { doCharge, getChargeStatus } from '../service/charge.ts';
-import { NavigationProps, RootStackParamList } from './RootStackParamList.ts';
+import { NavigationProps, StackLoggedInParamList } from './RootStackParamList.ts';
 
-const ChargePage = ({ navigation }: { route: RouteProp<RootStackParamList>, navigation: NavigationProps }) => {
+const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, navigation: NavigationProps }) => {
   const [chargeStatusDataResult, setChargeStatusDataResult] =
     useState<ChargeStatusDataResult | null>(null);
   const [qrcode, setQRCode] = useState('');
@@ -25,9 +25,7 @@ const ChargePage = ({ navigation }: { route: RouteProp<RootStackParamList>, navi
     refreshChargeStatus();
   }, []);
   const handleChange = (text: string) => {
-    // Allow only numbers
-    const numericValue = text.replace(/[^0-9]/g, '');
-    setQRCode(numericValue);
+    setQRCode(text);
   };
   const handleDoCharge = () => {
     doCharge(Number(qrcode))

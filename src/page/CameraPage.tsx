@@ -2,10 +2,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Button, Easing, StyleSheet, Text, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
-import { NavigationProps, RootStackParamList } from './RootStackParamList';
+import { NavigationProps, StackLoggedInParamList } from './RootStackParamList';
 import { RouteProp } from '@react-navigation/native';
 
-export default function CameraPage({route, navigation}: {route: RouteProp<RootStackParamList>,navigation: NavigationProps}) {
+export default function CameraPage({route, navigation}: {route: RouteProp<StackLoggedInParamList>,navigation: NavigationProps}) {
     const [flash, setFlash] = useState(false);
     const moveAnim = useRef(new Animated.Value(-2)).current;
 
