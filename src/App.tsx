@@ -7,7 +7,7 @@ import DebugPage from './page/DebugPage.tsx';
 import LoginPage from './page/LoginPage.tsx';
 import { RootStackParamList } from './page/RootStackParamList.ts';
 import { logout } from '@creeper12356/altcampuslifeservice';
-import Camera from './page/Camera.tsx';
+import CameraPage from './page/CameraPage.tsx';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -49,7 +49,7 @@ function App(): React.JSX.Element {
           }
         />
         <Stack.Screen name="Debug" component={DebugPage} />
-        <Stack.Screen name="Camera" component={Camera} />
+        <Stack.Screen name="Camera" component={CameraPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

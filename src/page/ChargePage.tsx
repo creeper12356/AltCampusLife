@@ -1,19 +1,16 @@
 import { Button, InputItem, List, Provider, Toast } from '@ant-design/react-native';
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from 'react';
 import { PermissionsAndroid, SafeAreaView, View } from 'react-native';
 import ChargeStatusDataResultList from '../component/ChargeStatusDataResultList.tsx';
 import { ChargeStatusDataResult } from '../model/ChargeStatusDataResult.ts';
 import { doCharge, getChargeStatus } from '../service/charge.ts';
-import { NavigationProps } from './RootStackParamList.ts';
+import { NavigationProps, RootStackParamList } from './RootStackParamList.ts';
 
-const ChargePage = () => {
+const ChargePage = ({ navigation }: { route: RouteProp<RootStackParamList>, navigation: NavigationProps }) => {
   const [chargeStatusDataResult, setChargeStatusDataResult] =
-  useState<ChargeStatusDataResult | null>(null);
-  const route = useRoute();
-  const {qrcode} = route.params as {qrcode: string};
-  const [inputValue, setInputValue] = useState(qrcode);
-  const navigation = useNavigation<NavigationProps>();
+    useState<ChargeStatusDataResult | null>(null);
+  const [qrcode, setQRCode] = useState('');
   const refreshChargeStatus = () => {
     console.log('refresh');
     getChargeStatus().then(result => {
@@ -30,10 +27,10 @@ const ChargePage = () => {
   const handleChange = (text: string) => {
     // Allow only numbers
     const numericValue = text.replace(/[^0-9]/g, '');
-    setInputValue(numericValue);
+    setQRCode(numericValue);
   };
   const handleDoCharge = () => {
-    doCharge(Number(inputValue))
+    doCharge(Number(qrcode))
       .then(result => {
         Toast.info({ content: JSON.stringify(result) });
       })
@@ -61,7 +58,7 @@ const ChargePage = () => {
               autoFocus={false}
               type="number"
               onChangeText={handleChange}
-              value={inputValue}
+              value={qrcode}
               placeholder="输入序列号后8位"
             />
             <Button type="primary" onPress={handleDoCharge}>
@@ -75,7 +72,7 @@ const ChargePage = () => {
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             //跳转至扫码组件，即可开始扫码
-            navigation.navigate('Camera');
+            navigation.navigate('Camera', { updateQRCode: (qrcode: string) => { setQRCode(qrcode); } });
           } else {
             console.log('拒绝');
             return;

@@ -1,14 +1,13 @@
 /* reference blog: https://blog.csdn.net/m0_72030630/article/details/130866595 */
-import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Button, Easing, StyleSheet, Text, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
-import { NavigationProps } from './RootStackParamList';
+import { NavigationProps, RootStackParamList } from './RootStackParamList';
+import { RouteProp } from '@react-navigation/native';
 
-export default function Camera() {
+export default function CameraPage({route, navigation}: {route: RouteProp<RootStackParamList>,navigation: NavigationProps}) {
     const [flash, setFlash] = useState(false);
     const moveAnim = useRef(new Animated.Value(-2)).current;
-    const navigation = useNavigation<NavigationProps>();
 
     /** 扫描框动画*/
     const startAnimation = () => {
@@ -33,27 +32,6 @@ export default function Camera() {
         startAnimation();
     }, []);
 
-    //   const onBarCodeRead = useCallback(
-    //     (result: {data: string}) => {
-    //       const {data} = result;
-    //       if (data && data !== lastScannedDataRef.current) {
-
-    //         //此处，可以根据自己的需求修改，当拿到数据后，该执行什么样的逻辑，
-    //         // setShowModal(true);
-    //         // const arr = data.split(',');
-    //         // const obj: any = {};
-    //         // for (let i = 0; i < arr.length; i++) {
-    //         //   obj['field' + (i + 1)] = arr[i];
-    //         // }
-    //         // const dataList = Object.values(obj)
-    //         //   .filter(value => value !== '')
-    //         //   .map(value => ({item: value}));
-    //         // setDataList(dataList);
-    //       }
-    //     },
-    //     [navigate],
-    //   );
-
     return (
         <>
             <View style={styles.container}>
@@ -68,7 +46,8 @@ export default function Camera() {
                             : RNCamera.Constants.FlashMode.off
                     }
                     onBarCodeRead={({data}) => {
-                        navigation.navigate('Charge', {qrcode: data.slice(-8)});
+                        route.params?.updateQRCode(data.slice(-8));
+                        navigation.navigate('Charge');
                     }}
 
                     //此处是类型，即相机可以识别的码类型
