@@ -6,7 +6,7 @@ import CameraPage from './page/CameraPage.tsx';
 import ChargePage from './page/ChargePage.tsx';
 import DebugPage from './page/DebugPage.tsx';
 import LoginPage from './page/LoginPage.tsx';
-import { StackLoggedInParamList, StackNotLoggedInParamList } from './page/RootStackParamList.ts';
+import { NavigationProps, StackLoggedInParamList, StackNotLoggedInParamList } from './page/RootStackParamList.ts';
 import { LoggedInContext } from './context/LoggedInContext.ts';
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -19,22 +19,22 @@ function App(): React.JSX.Element {
     getCurrentUserId().then(userid => {
       setLoggedIn(userid !== 0);
     })
-  }, [])  
+  }, [])
   const pagesLoggedIn = (
     <StackLoggedIn.Navigator>
       <StackLoggedIn.Screen
         name="Charge"
         component={ChargePage}
-        options={({ navigation }) => ({
-          // headerLeft: () => (
-          //   <Button
-          //     type="primary"
-          //     onPress={() => {
-          //       navigation.
-          //     }}>
-          //     调试
-          //   </Button>
-          // ),
+        options={({ navigation }: { navigation: NavigationProps }) => ({
+          headerLeft: () => (
+            <Button
+              type="primary"
+              onPress={() => {
+                navigation.navigate('Debug');
+              }}>
+              调试
+            </Button>
+          ),
           headerRight: () => {
             return (
               <Button

@@ -1,8 +1,10 @@
-import { Provider, Button, InputItem, Input, View, Toast } from "@ant-design/react-native";
+import { Button, Input, Provider, Toast, View } from "@ant-design/react-native";
 import { useState } from "react";
 import { SafeAreaView, Text } from "react-native";
 import { doCharge, getChargeList, getChargeRecords, getPriceInfo } from "../service/charge";
 // import Clipboard from "@react-native-community/clipboard";
+import Alipay from '@uiw/react-native-alipay';
+import { payApplyReturn, payApply as payapply } from "../service/pay";
 import { getJacount, getUserInfo, register } from "../service/user";
 
 const DebugPage = () => {
@@ -63,7 +65,7 @@ const DebugPage = () => {
                 </View>
                 <View>
                     <Button type="primary" onPress={() => {
-                        getChargeRecords()
+                        getChargeRecords('2024', '05')
                             .then(handleResponse)
                             .catch(handleResponse);
                     }}>chargerecords</Button>
@@ -75,6 +77,22 @@ const DebugPage = () => {
                             .then(handleResponse)
                             .catch(handleResponse);
                     }}>register</Button>
+                </View>
+                <View>
+                    <Button type="primary" onPress={() => {
+                        payapply(0.01)
+                            .then(async (result) => {
+                                // @ts-ignore
+                                const payInfo = result.data.result1[0].orderinfo;
+                                console.log('payInfo: ' + payInfo);
+                                let res = await Alipay.alipay(payInfo);
+                                console.log('res: ' + JSON.stringify(res));
+                                let res2 = await payApplyReturn(JSON.stringify(res));
+                                console.log('res2: ' + JSON.stringify(res2));
+                            }).catch(e => {
+                                console.log(e);
+                            })
+                    }}>pay</Button>
                 </View>
 
             </SafeAreaView>

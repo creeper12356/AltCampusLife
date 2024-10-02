@@ -110,6 +110,7 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
     implementation project(path: ':react-native-camera')
+    api 'com.alipay.sdk:alipaysdk-android:+@aar'
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

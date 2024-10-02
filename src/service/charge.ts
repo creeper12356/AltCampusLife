@@ -38,23 +38,14 @@ export const getPriceInfo = async () => {
   return result;
 }
 
-export const getChargeRecords = async () => {
+export const getChargeRecords = async (yy: string, mm: string) => {
   const result = await postOrderWithUserId(CHARGE_URL, {
     ordertype: 'chargerecords',
     origin: 'cloud',
-    yy: '2024',
-    mm: '05',
+    yy: yy,
+    mm: mm,
   });
   return result;
 }
-// export const getChargePileList = async (
-//   rid: number,
-// ): Promise<ChargePileInfo[]> => {
-//   const getChargePileListResult = await postOrder(CHARGE_URL, {
-//     ordertype: 'getsublist',
-//     origin: 'cloud',
-//     rid: rid,
-//   });
-//   // @ts-ignore
-//   return getChargePileListResult.data.result1 as ChargePileInfo[];
-// };
+
+
