@@ -14,7 +14,6 @@ const DebugPage = () => {
         let resultString = JSON.stringify(result);
         console.log(resultString);
         Toast.info({ content: resultString, duration: 0.5 });
-        // Clipboard.setString(resultString);
     }
     return (
         <Provider>
@@ -76,11 +75,8 @@ const DebugPage = () => {
                             .then(async (result) => {
                                 // @ts-ignore
                                 const payInfo = result.orderinfo;
-                                console.log('payInfo: ' + payInfo);
                                 let res = await Alipay.alipay(payInfo);
-                                console.log('res: ' + JSON.stringify(res));
                                 let res2 = await payApplyReturn(JSON.stringify(res));
-                                console.log('res2: ' + JSON.stringify(res2));
                             }).catch(e => {
                                 console.log(e);
                             })

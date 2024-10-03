@@ -25,7 +25,7 @@ export const payApplyReturn = async (returnContent: string) => {
 export async function handleDoPay(payMoney: number) {
     const payApplyResult = await payApply(payMoney);
     //@ts-ignore
-    const alipayResult = await Alipay.alipay(payApplyResult.orderinfo);
+    const alipayResult = await Alipay.alipay(payApplyResult.data.result1[0].orderinfo);
     const payApplyReturnResult = await payApplyReturn(JSON.stringify(alipayResult));
     return payApplyReturnResult;
 }

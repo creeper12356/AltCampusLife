@@ -17,11 +17,10 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
   const [qrcode, setQRCode] = useState('');
   const [payMoneyStr, setPayMoneyStr] = useState<string>('');
   const refreshChargeStatus = () => {
-    console.log('refresh');
     getChargeStatus()
       .then(result => {
-        //TODO: edit here
-        setChargeStatusDataResult(result as ChargeStatusDataResult);
+        // @ts-ignore
+        setChargeStatusDataResult(result.data.result1[0] as ChargeStatusDataResult);
       })
       .catch(e => {
         console.log(e);
@@ -31,7 +30,8 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
   const refreshAccountInfo = () => {
     getAccountInfo()
       .then(result => {
-        setAccountInfo(result as AccountInfoDataResult);
+        //@ts-ignore
+        setAccountInfo(result.data.result1[0] as AccountInfoDataResult);
       })
       .catch(e => {
         console.log(e);
@@ -51,10 +51,11 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
     }
     doCharge(Number(qrcode))
       .then(result => {
-        Toast.info({ content: JSON.stringify(result) });
+        // @ts-ignore
+        Toast.info({ content: result.note });
       })
       .catch(e => {
-        Toast.fail({ content: JSON.stringify(e) });
+        Toast.fail({ content: e });
       })
       .finally(() => {
         refreshChargeStatus();
@@ -82,10 +83,11 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
     }
     handleDoPay(payMoney)
       .then(result => {
-        Toast.info({ content: JSON.stringify(result) });
+        // @ts-ignore
+        Toast.info({ content: result.note });
       })
       .catch(e => {
-        Toast.fail({ content: JSON.stringify(e) });
+        Toast.fail({ content: e });
       })
       .finally(() => {
         refreshAccountInfo();
