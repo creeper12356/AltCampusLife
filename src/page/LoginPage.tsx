@@ -8,7 +8,6 @@ import {
 import { login } from '@creeper12356/altcampuslifeservice';
 import React, { useContext, useState } from 'react';
 import { View } from 'react-native';
-import { NavigationProps } from './RootStackParamList';
 import { LoggedInContext } from '../context/LoggedInContext';
 const LoginPage = () => {
   const [username, setUsername] = useState<string>('');

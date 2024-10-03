@@ -1,7 +1,7 @@
-import { Button, Icon, InputItem, List, Provider, Toast, Text } from '@ant-design/react-native';
+import { Button, Icon, InputItem, List, Provider, Toast, Text, TabBar, Modal } from '@ant-design/react-native';
 import { RouteProp } from "@react-navigation/native";
 import React, { useEffect, useState } from 'react';
-import { PermissionsAndroid, SafeAreaView, View } from 'react-native';
+import { PermissionsAndroid, SafeAreaView, ScrollView, View } from 'react-native';
 import ChargeStatusDataResultList from '../component/ChargeStatusDataResultList.tsx';
 import { ChargeStatusDataResult } from '../model/ChargeStatusDataResult.ts';
 import { doCharge, getChargeStatus } from '../service/charge.ts';
@@ -9,6 +9,8 @@ import { handleDoPay } from '../service/pay.ts';
 import { NavigationProps, StackLoggedInParamList } from './RootStackParamList.ts';
 import { AccountInfoDataResult } from '../model/AccountInfoDataResult.ts';
 import { getAccountInfo } from '../service/user.ts';
+import TabBarItem from '@ant-design/react-native/lib/tab-bar/TabBarItem';
+import AboutContent from '../component/AboutContent.tsx';
 
 const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, navigation: NavigationProps }) => {
   const [chargeStatusDataResult, setChargeStatusDataResult] =
@@ -52,10 +54,10 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
     doCharge(Number(qrcode))
       .then(result => {
         // @ts-ignore
-        Toast.info({ content: result.note });
+        Toast.info({ content: result.note , duration: 0.5});
       })
       .catch(e => {
-        Toast.fail({ content: e });
+        Toast.fail({ content: e , duration: 0.5});
       })
       .finally(() => {
         refreshChargeStatus();
@@ -78,16 +80,16 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
     let payMoney = Number(payMoneyStr);
     if (isNaN(payMoney) || payMoney <= 0) {
       setPayMoneyStr('');
-      Toast.fail({ content: '请输入合法的金额！' });
+      Toast.fail({ content: '请输入合法的金额！', duration: 0.5 });
       return;
     }
     handleDoPay(payMoney)
       .then(result => {
         // @ts-ignore
-        Toast.info({ content: result.note });
+        Toast.info({ content: result.note , duration: 0.5});
       })
       .catch(e => {
-        Toast.fail({ content: e });
+        Toast.fail({ content: e , duration: 0.5});
       })
       .finally(() => {
         refreshAccountInfo();
@@ -95,69 +97,65 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
   }
   return (
     <Provider>
-      <SafeAreaView>
-        <List renderHeader="充电">
-          <InputItem
-            autoFocus={false}
-            type="number"
-            onChangeText={handleChange}
-            value={qrcode}
-            placeholder="输入序列号后8位"
-          />
-          <List.Item>
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
-              <Button type="primary" onPress={handleDoChargeClicked}>
-                <Icon name="thunderbolt" color="white" />
-                <Text style={{ color: 'white' }}>{chargeStatusDataResult == null ? '充电' : '充电中'}</Text>
-              </Button>
-              <Button type="primary" onPress={handleScanClicked}>
-                <Icon name="scan" color="white" />
-                <Text style={{ color: 'white' }}>扫码</Text>
-              </Button>
-            </View>
-          </List.Item>
-        </List>
-        <List renderHeader="充值">
-          <List.Item>
-            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <Icon size='lg' name='wallet' />
-              <Text style={{ fontSize: 30 }}>{accountInfo?.acbalance}</Text>
-            </View>
-          </List.Item>
-          <InputItem
-            type="number"
-            onChangeText={(text) => {
-              setPayMoneyStr(text);
-            }}
-            value={payMoneyStr}
-            placeholder="输入充值金额"
-          />
-          <List.Item>
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
-              <Button onPress={() => { setPayMoneyStr('1.5'); }}>1.5</Button>
-              <Button onPress={() => { setPayMoneyStr('3.0'); }}>3.0</Button>
-              <Button onPress={() => { setPayMoneyStr('6.0'); }}>6.0</Button>
-              <Button onPress={() => { setPayMoneyStr('15.0'); }}>15.0</Button>
-            </View>
-          </List.Item>
-          <List.Item>
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-              <Button type="primary" onPress={handleDoPayClicked}>
-                <Icon name="alipay-circle" color="white" />
-                <Text style={{ color: 'white' }}>充值</Text>
-              </Button>
-            </View>
-          </List.Item>
-          <List.Item>
-            <View>
-              {chargeStatusDataResult != null && (
-                <ChargeStatusDataResultList
-                  result={chargeStatusDataResult as ChargeStatusDataResult}
-                />
-              )}
-            </View>
-          </List.Item>
-        </List>
+      <SafeAreaView style={{ justifyContent: 'space-between', flex: 1 }}>
+        <View>
+          <List renderHeader="充电">
+            <InputItem
+              autoFocus={false}
+              type="number"
+              onChangeText={handleChange}
+              value={qrcode}
+              placeholder="输入序列号后8位"
+            />
+            <List.Item>
+              <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+                <Button type="primary" onPress={handleDoChargeClicked}>
+                  <Icon name="thunderbolt" color="white" />
+                  <Text style={{ color: 'white' }}>{chargeStatusDataResult == null ? '充电' : '充电中'}</Text>
+                </Button>
+                <Button type="primary" onPress={handleScanClicked}>
+                  <Icon name="scan" color="white" />
+                  <Text style={{ color: 'white' }}>扫码</Text>
+                </Button>
+              </View>
+            </List.Item>
+          </List>
+          <List renderHeader="充值">
+            <List.Item>
+              <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <Icon size='lg' name='wallet' />
+                <Text style={{ fontSize: 30 }}>{accountInfo?.acbalance}</Text>
+              </View>
+            </List.Item>
+            <InputItem
+              type="number"
+              onChangeText={(text) => {
+                setPayMoneyStr(text);
+              }}
+              value={payMoneyStr}
+              placeholder="输入充值金额"
+            />
+            <List.Item>
+              <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+                <Button onPress={() => { setPayMoneyStr('1.5'); }}>1.5</Button>
+                <Button onPress={() => { setPayMoneyStr('3.0'); }}>3.0</Button>
+                <Button onPress={() => { setPayMoneyStr('6.0'); }}>6.0</Button>
+                <Button onPress={() => { setPayMoneyStr('15.0'); }}>15.0</Button>
+              </View>
+            </List.Item>
+            <List.Item>
+              <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                <Button type="primary" onPress={handleDoPayClicked}>
+                  <Icon name="alipay-circle" color="white" />
+                  <Text style={{ color: 'white' }}>充值</Text>
+                </Button>
+              </View>
+            </List.Item>
+          </List>
+        </View>
+        <Button onPress={() => {
+          Modal.alert('关于', <AboutContent />);
+        }}>关于</Button>
       </SafeAreaView>
     </Provider>);
 };
