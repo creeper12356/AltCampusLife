@@ -1,7 +1,5 @@
-import { PREFIX, postOrderWithUserId } from "@creeper12356/altcampuslifeservice";
+import { PAY_URL, PREFIX, postOrderWithUserId } from "@creeper12356/altcampuslifeservice";
 import Alipay from '@uiw/react-native-alipay';
-
-const PAY_URL = PREFIX + '/PayService';
 
 export const payApply = async (money: number) => {
     const result = await postOrderWithUserId(PAY_URL, {

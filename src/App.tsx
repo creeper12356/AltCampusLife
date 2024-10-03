@@ -14,6 +14,8 @@ const StackNotLoggedIn = createNativeStackNavigator<StackNotLoggedInParamList>()
 
 function App(): React.JSX.Element {
   const [isLoggedIn, setLoggedIn] = useState(true);
+  // note: 设置isDebugMode为true开启调试页面
+  const [isDebugMode, _] = useState(false);
   useEffect(() => {
     altcampusservice.isLoggedIn()
       .then(bl => {
@@ -26,7 +28,7 @@ function App(): React.JSX.Element {
         name="Charge"
         component={ChargePage}
         options={({ navigation }: { navigation: NavigationProps }) => ({
-          headerLeft: () => (
+          headerLeft: () => isDebugMode ? (
             <Button
               type="primary"
               onPress={() => {
@@ -34,7 +36,7 @@ function App(): React.JSX.Element {
               }}>
               调试
             </Button>
-          ),
+          ) : <></>,
           headerRight: () => {
             return (
               <Button

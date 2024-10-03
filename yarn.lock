@@ -1191,10 +1191,10 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@creeper12356/altcampuslifeservice@^1.0.3":
-  version "1.0.3"
-  resolved "https://npm.pkg.github.com/download/@creeper12356/altcampuslifeservice/1.0.3/98c99c349bf76eb2298f55e4673f526b6bf31a35"
-  integrity sha512-Fkcfp7RWu7fpQ2ZdJWtToc/juB4r9kSkGz4ilMOSGsFeWsLWnzepmdDQsjFL6WXpN7tmtn95h0JkTixpBuDyxA==
+"@creeper12356/altcampuslifeservice@^1.0.4":
+  version "1.0.4"
+  resolved "https://npm.pkg.github.com/download/@creeper12356/altcampuslifeservice/1.0.4/26f6c34cbf71bcef6129d8c15dfbce4a7b98f56a"
+  integrity sha512-nKkwvvEXVkF7Pn8kEVjwYPpzBvaO2meZIXLd6udV6pTkp8tzhg5cZD1Sc3Mfc9RXdUmy/l4kD+94H66DV6MFBA==
   dependencies:
     "@react-native-async-storage/async-storage" "^2.0.0"
     buffer "^6.0.3"
@@ -6357,9 +6357,9 @@ react-native-modal-popover@^2.0.1:
     prop-types "^15.8.1"
 
 react-native-reanimated@>=2.8.0:
-  version "3.15.3"
-  resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-3.15.3.tgz"
-  integrity sha512-5QBk/7PZvZ98Adxm4MRyglwzsRzReTQIe4Hd2wbBBAZ68IC4OYKvsc8cPEjgx3/1mG8HgHFYhbcDe5U2RjeFqw==
+  version "3.15.4"
+  resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-3.15.4.tgz"
+  integrity sha512-jcpHE+MnsvSbClhHgAFoken7SnaHrUJ5gVA8BUw8S1j6rkrw2VzRpht6cxn14NlqYx5ytjfG9IXJDOzq8tFvfw==
   dependencies:
     "@babel/plugin-transform-arrow-functions" "^7.0.0-0"
     "@babel/plugin-transform-class-properties" "^7.0.0-0"

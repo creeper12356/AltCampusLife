@@ -96,13 +96,6 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
   return (
     <Provider>
       <SafeAreaView>
-        <View>
-          {chargeStatusDataResult != null && (
-            <ChargeStatusDataResultList
-              result={chargeStatusDataResult as ChargeStatusDataResult}
-            />
-          )}
-        </View>
         <List renderHeader="充电">
           <InputItem
             autoFocus={false}
@@ -140,7 +133,7 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
             placeholder="输入充值金额"
           />
           <List.Item>
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
               <Button onPress={() => { setPayMoneyStr('1.5'); }}>1.5</Button>
               <Button onPress={() => { setPayMoneyStr('3.0'); }}>3.0</Button>
               <Button onPress={() => { setPayMoneyStr('6.0'); }}>6.0</Button>
@@ -153,6 +146,15 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
                 <Icon name="alipay-circle" color="white" />
                 <Text style={{ color: 'white' }}>充值</Text>
               </Button>
+            </View>
+          </List.Item>
+          <List.Item>
+            <View>
+              {chargeStatusDataResult != null && (
+                <ChargeStatusDataResultList
+                  result={chargeStatusDataResult as ChargeStatusDataResult}
+                />
+              )}
             </View>
           </List.Item>
         </List>
