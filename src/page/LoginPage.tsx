@@ -17,12 +17,10 @@ const LoginPage = () => {
   const handleLogin = (username: string, password: string) => {
     login(username, password)
       .then(result => {
-        console.log(JSON.stringify(result));
         Toast.success({ content: '登录成功！' });
         setLoggedIn(true);
       })
       .catch(e => {
-        console.log(e)
         Toast.fail({ content: '登录失败！' + JSON.stringify(e) });
       });
   };

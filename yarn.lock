@@ -1191,10 +1191,10 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@creeper12356/altcampuslifeservice@^1.0.1":
-  version "1.0.1"
-  resolved "https://npm.pkg.github.com/download/@creeper12356/altcampuslifeservice/1.0.1/2dbdb12def79558b5afc2f071ebedaa12746f0eb"
-  integrity sha512-R6Zgd6khf9tJfndXbKpl9GWMySH+RzCGPegpj++p4kLc7vlnEIUW/u5EYIh8DKGWAb5NIoSi4dbt0rgte9mzUA==
+"@creeper12356/altcampuslifeservice@^1.0.2":
+  version "1.0.2"
+  resolved "https://npm.pkg.github.com/download/@creeper12356/altcampuslifeservice/1.0.2/96a33ba33bf9073b7cb47da2d69c0756e05684cf"
+  integrity sha512-OKijm8MPFQjgTTzXrm7sE+Z6f4rKb/1sTVPBVlZUxTCo7GGasirvaHoAArP4X078+dU2ufMpUXSvEJNPYwko2g==
   dependencies:
     "@react-native-async-storage/async-storage" "^2.0.0"
     buffer "^6.0.3"

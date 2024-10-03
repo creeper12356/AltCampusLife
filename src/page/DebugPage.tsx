@@ -5,7 +5,7 @@ import { doCharge, getChargeList, getChargeRecords, getPriceInfo } from "../serv
 // import Clipboard from "@react-native-community/clipboard";
 import Alipay from '@uiw/react-native-alipay';
 import { payApplyReturn, payApply as payapply } from "../service/pay";
-import { getJacount, getUserInfo, register } from "../service/user";
+import { getJacount, getAccountInfo} from "../service/user";
 
 const DebugPage = () => {
     const [qrcode, setQrcode] = useState<string>('');
@@ -35,7 +35,7 @@ const DebugPage = () => {
                 </View>
                 <View>
                     <Button type="primary" onPress={() => {
-                        getUserInfo()
+                        getAccountInfo()
                             .then(handleResponse)
                             .catch(handleResponse);
 
@@ -70,20 +70,12 @@ const DebugPage = () => {
                             .catch(handleResponse);
                     }}>chargerecords</Button>
                 </View>
-
-                <View>
-                    <Button type="primary" onPress={() => {
-                        register()
-                            .then(handleResponse)
-                            .catch(handleResponse);
-                    }}>register</Button>
-                </View>
                 <View>
                     <Button type="primary" onPress={() => {
                         payapply(0.01)
                             .then(async (result) => {
                                 // @ts-ignore
-                                const payInfo = result.data.result1[0].orderinfo;
+                                const payInfo = result.orderinfo;
                                 console.log('payInfo: ' + payInfo);
                                 let res = await Alipay.alipay(payInfo);
                                 console.log('res: ' + JSON.stringify(res));

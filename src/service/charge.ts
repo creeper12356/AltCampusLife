@@ -1,25 +1,20 @@
 import { CHARGE_URL, postOrder, postOrderWithUserId } from "@creeper12356/altcampuslifeservice";
-import { ChargeStatusInfo } from "../model/ChargeStatusInfo";
 
 export const doCharge = async (qrcode: number) => {
   const doChargeResult = await postOrderWithUserId(CHARGE_URL, {
     ordertype: 'docharge',
     qrcode: qrcode,
     origin: 'cloud',
-  }) as ChargeStatusInfo; //TODO: 修改此处
-  if (doChargeResult.state !== '1') {
-    throw doChargeResult;
-  }
+  });
   return doChargeResult;
 };
 
-export const getChargeStatus = async (): Promise<ChargeStatusInfo> => {
+export const getChargeStatus = async () => {
   const getChargeStatusResult = await postOrderWithUserId(CHARGE_URL, {
     ordertype: 'chargestatus',
     origin: 'cloud',
   });
-  console.log(JSON.stringify(getChargeStatusResult));
-  return getChargeStatusResult as ChargeStatusInfo;
+  return getChargeStatusResult;
 };
 
 export const getChargeList = async () => {

@@ -1,5 +1,4 @@
 import { Button } from '@ant-design/react-native';
-import { getCurrentUserId, logout } from '@creeper12356/altcampuslifeservice';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import CameraPage from './page/CameraPage.tsx';
@@ -9,16 +8,17 @@ import LoginPage from './page/LoginPage.tsx';
 import { NavigationProps, StackLoggedInParamList, StackNotLoggedInParamList } from './page/RootStackParamList.ts';
 import { LoggedInContext } from './context/LoggedInContext.ts';
 import { NavigationContainer } from '@react-navigation/native';
-
+import altcampusservice from '@creeper12356/altcampuslifeservice';
 const StackLoggedIn = createNativeStackNavigator<StackLoggedInParamList>();
 const StackNotLoggedIn = createNativeStackNavigator<StackNotLoggedInParamList>();
 
 function App(): React.JSX.Element {
   const [isLoggedIn, setLoggedIn] = useState(true);
   useEffect(() => {
-    getCurrentUserId().then(userid => {
-      setLoggedIn(userid !== 0);
-    })
+    altcampusservice.isLoggedIn()
+      .then(bl => {
+        setLoggedIn(bl);
+      });
   }, [])
   const pagesLoggedIn = (
     <StackLoggedIn.Navigator>
@@ -40,7 +40,7 @@ function App(): React.JSX.Element {
               <Button
                 type="primary"
                 onPress={() => {
-                  logout();
+                  altcampusservice.logout();
                   setLoggedIn(false);
                 }}>
                 登出
