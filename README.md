@@ -60,3 +60,14 @@ npx react-native bundle --platform android --dev false --entry-file index.js --b
 构建后的apk文件位于`android/app/build/outputs/apk/release`目录。
 
 ### iOS(TODO)
+
+
+## 🎉致谢
+向在本项目开发过程中提供支持的工具/软件表示感谢：
+- [JADX](https://github.com/skylot/jadx)
+- [抓包精灵](https://github.com/huolizhuminh/NetWorkPacketCapture)
+- [easyappicon](https://easyappicon.com/)
+- [Apifox](https://apifox.com/)
+- ChatGPT & Copilot
+- VSCode
+- ...
