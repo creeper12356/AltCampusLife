@@ -1193,8 +1193,8 @@
 
 "@creeper12356/altcampuslifeservice@^1.0.4":
   version "1.0.4"
-  resolved "https://npm.pkg.github.com/download/@creeper12356/altcampuslifeservice/1.0.4/26f6c34cbf71bcef6129d8c15dfbce4a7b98f56a"
-  integrity sha512-nKkwvvEXVkF7Pn8kEVjwYPpzBvaO2meZIXLd6udV6pTkp8tzhg5cZD1Sc3Mfc9RXdUmy/l4kD+94H66DV6MFBA==
+  resolved "https://npm.pkg.github.com/download/@creeper12356/altcampuslifeservice/1.0.4/bd7e78c4b4a8b34f370a12eb3701748ea342efc3"
+  integrity sha512-HEYarTPwEbCuQWAQCR+Mxg/cEG+REal1LXuBjSu5xVMsAH8MWkw8zMpY38FZGoTFiHWwyDLL6OScEtKlJhJvHg==
   dependencies:
     "@react-native-async-storage/async-storage" "^2.0.0"
     buffer "^6.0.3"
