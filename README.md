@@ -3,6 +3,7 @@
 
 ## 📝介绍
 AltCampusLife是一个开源的电动车充电客户端App，与东晟校园生活完全兼容，支持Android, iOS（如果有💰上架AppStore的话）。
+
 ![altcampuslife](https://github.com/user-attachments/assets/e73f16d8-121c-4a3f-8c86-881eefa9469b)
 - 🤗集成扫码、充电、充值于一个页面，简单易用
 - 📷支持扫码充电，且可开启闪光灯
