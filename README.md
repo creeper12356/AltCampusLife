@@ -1,6 +1,8 @@
 # AltCampusLife 
 > 东晟校园生活开源优化版
 
+![altcampuslife](https://github.com/user-attachments/assets/e73f16d8-121c-4a3f-8c86-881eefa9469b)
+
 
 ## ⚙从源代码运行
 ### Android
