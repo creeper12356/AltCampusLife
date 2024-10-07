@@ -1,16 +1,14 @@
-import { Button, Icon, InputItem, List, Provider, Toast, Text, TabBar, Modal } from '@ant-design/react-native';
+import { Button, Icon, InputItem, List, Modal, Provider, Text, Toast } from '@ant-design/react-native';
 import { RouteProp } from "@react-navigation/native";
 import React, { useEffect, useState } from 'react';
-import { PermissionsAndroid, SafeAreaView, ScrollView, View } from 'react-native';
-import ChargeStatusDataResultList from '../component/ChargeStatusDataResultList.tsx';
+import { AppState, PermissionsAndroid, SafeAreaView, View } from 'react-native';
+import AboutContent from '../component/AboutContent.tsx';
+import { AccountInfoDataResult } from '../model/AccountInfoDataResult.ts';
 import { ChargeStatusDataResult } from '../model/ChargeStatusDataResult.ts';
 import { doCharge, getChargeStatus } from '../service/charge.ts';
 import { handleDoPay } from '../service/pay.ts';
-import { NavigationProps, StackLoggedInParamList } from './RootStackParamList.ts';
-import { AccountInfoDataResult } from '../model/AccountInfoDataResult.ts';
 import { getAccountInfo } from '../service/user.ts';
-import TabBarItem from '@ant-design/react-native/lib/tab-bar/TabBarItem';
-import AboutContent from '../component/AboutContent.tsx';
+import { NavigationProps, StackLoggedInParamList } from './RootStackParamList.ts';
 
 const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, navigation: NavigationProps }) => {
   const [chargeStatusDataResult, setChargeStatusDataResult] =
@@ -27,7 +25,7 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
       .catch(e => {
         console.log(e);
         setChargeStatusDataResult(null);
-      })
+      });
   };
   const refreshAccountInfo = () => {
     getAccountInfo()
@@ -39,14 +37,27 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
         console.log(e);
         setAccountInfo(null);
       })
-  }
-  useEffect(() => {
+  };
+
+  const refreshPageStatus = () => {
     refreshChargeStatus();
     refreshAccountInfo();
+  }
+
+  useEffect(() => {
+    const unsubscribeNavigation = navigation.addListener('focus', refreshPageStatus);
+    const appStateListener = AppState.addEventListener('change', (nextAppState) => {
+      if (nextAppState === 'active') {
+        refreshPageStatus();
+      }
+    });
+
+    return () => {
+      unsubscribeNavigation();
+      appStateListener.remove();
+    }
   }, []);
-  const handleChange = (text: string) => {
-    setQRCode(text);
-  };
+
   const handleDoChargeClicked = () => {
     if (chargeStatusDataResult != null) {
       return;
@@ -54,13 +65,11 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
     doCharge(Number(qrcode))
       .then(result => {
         // @ts-ignore
-        Toast.info({ content: result.note , duration: 0.5});
+        Toast.info({ content: result.note, duration: 0.5 });
+        refreshChargeStatus();
       })
       .catch(e => {
-        Toast.fail({ content: e , duration: 0.5});
-      })
-      .finally(() => {
-        refreshChargeStatus();
+        Toast.fail({ content: e, duration: 0.5 });
       });
   };
   const handleScanClicked = async () => {
@@ -86,10 +95,10 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
     handleDoPay(payMoney)
       .then(result => {
         // @ts-ignore
-        Toast.info({ content: result.note , duration: 0.5});
+        Toast.info({ content: result.note, duration: 0.5 });
       })
       .catch(e => {
-        Toast.fail({ content: e , duration: 0.5});
+        Toast.fail({ content: e, duration: 0.5 });
       })
       .finally(() => {
         refreshAccountInfo();
@@ -103,7 +112,9 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
             <InputItem
               autoFocus={false}
               type="number"
-              onChangeText={handleChange}
+              onChangeText={(text) => {
+                setQRCode(text);
+              }}
               value={qrcode}
               placeholder="输入序列号后8位"
             />
