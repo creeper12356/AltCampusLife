@@ -50,10 +50,10 @@ r - reload app
 在项目根目录下执行以下命令以构建Android安装包（不含签名证书）
 ```sh
 npm i
-cd android/
 # 将React Native代码打包到Android应用中
 npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
 # 生成apk文件
+cd android/
 ./gradlew assembleRelease 
 ```
 注：在Windows中，最后一步需要使用`./gradlew.bat`脚本，而不是`./gradlew`。
