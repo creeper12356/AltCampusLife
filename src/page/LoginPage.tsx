@@ -9,18 +9,21 @@ import { login } from '@creeper12356/altcampuslifeservice';
 import React, { useContext, useState } from 'react';
 import { View } from 'react-native';
 import { LoggedInContext } from '../context/LoggedInContext';
+import { messageDuration, messageError, messageOk } from '../utils/message';
 const LoginPage = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const {setLoggedIn} = useContext(LoggedInContext);
+  const { setLoggedIn } = useContext(LoggedInContext);
   const handleLogin = (username: string, password: string) => {
     login(username, password)
       .then(result => {
-        Toast.success({ content: '登录成功！' });
-        setLoggedIn(true);
+        messageOk('登录成功！');
+        setTimeout(() => {
+          setLoggedIn(true);
+        }, messageDuration * 1000);
       })
       .catch(e => {
-        Toast.fail({ content: '登录失败！' + JSON.stringify(e) });
+        messageError(e);
       });
   };
 

@@ -9,6 +9,7 @@ import { doCharge, getChargeStatus } from '../service/charge.ts';
 import { handleDoPay } from '../service/pay.ts';
 import { getAccountInfo } from '../service/user.ts';
 import { NavigationProps, StackLoggedInParamList } from './RootStackParamList.ts';
+import { messageError, messageOk } from '../utils/message.ts';
 
 const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, navigation: NavigationProps }) => {
   const [chargeStatusDataResult, setChargeStatusDataResult] =
@@ -65,11 +66,11 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
     doCharge(Number(qrcode))
       .then(result => {
         // @ts-ignore
-        Toast.info({ content: result.note, duration: 0.5 });
+        messageOk(result.note);
         refreshChargeStatus();
       })
       .catch(e => {
-        Toast.fail({ content: e, duration: 0.5 });
+        messageError(e);
       });
   };
   const handleScanClicked = async () => {
@@ -89,16 +90,16 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
     let payMoney = Number(payMoneyStr);
     if (isNaN(payMoney) || payMoney <= 0) {
       setPayMoneyStr('');
-      Toast.fail({ content: '请输入合法的金额！', duration: 0.5 });
+      messageError('请输入合法的金额！');
       return;
     }
     handleDoPay(payMoney)
       .then(result => {
         // @ts-ignore
-        Toast.info({ content: result.note, duration: 0.5 });
+        messageOk(result.note);
       })
       .catch(e => {
-        Toast.fail({ content: e, duration: 0.5 });
+        messageError(e);
       })
       .finally(() => {
         refreshAccountInfo();

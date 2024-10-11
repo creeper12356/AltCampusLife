@@ -6,6 +6,7 @@ import { doCharge, getChargeList, getChargeRecords, getPriceInfo } from "../serv
 import Alipay from '@uiw/react-native-alipay';
 import { payApplyReturn, payApply as payapply } from "../service/pay";
 import { getJacount, getAccountInfo} from "../service/user";
+import { messageOk } from "../utils/message";
 
 const DebugPage = () => {
     const [qrcode, setQrcode] = useState<string>('');
@@ -13,7 +14,7 @@ const DebugPage = () => {
     const handleResponse = (result: any) => {
         let resultString = JSON.stringify(result);
         console.log(resultString);
-        Toast.info({ content: resultString, duration: 0.5 });
+        messageOk(resultString);
     }
     return (
         <Provider>
