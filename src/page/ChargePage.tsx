@@ -1,15 +1,14 @@
-import { Button, Icon, InputItem, List, Modal, Provider, Text, Toast } from '@ant-design/react-native';
+import { Button, Icon, InputItem, List, Provider, Text } from '@ant-design/react-native';
 import { RouteProp } from "@react-navigation/native";
 import React, { useEffect, useState } from 'react';
 import { AppState, PermissionsAndroid, SafeAreaView, View } from 'react-native';
-import AboutContent from '../component/AboutContent.tsx';
 import { AccountInfoDataResult } from '../model/AccountInfoDataResult.ts';
 import { ChargeStatusDataResult } from '../model/ChargeStatusDataResult.ts';
 import { doCharge, getChargeStatus } from '../service/charge.ts';
 import { handleDoPay } from '../service/pay.ts';
 import { getAccountInfo } from '../service/user.ts';
-import { NavigationProps, StackLoggedInParamList } from './RootStackParamList.ts';
 import { messageError, messageOk } from '../utils/message.ts';
+import { NavigationProps, StackLoggedInParamList } from './RootStackParamList.ts';
 
 const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, navigation: NavigationProps }) => {
   const [chargeStatusDataResult, setChargeStatusDataResult] =
@@ -166,8 +165,8 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
           </List>
         </View>
         <Button onPress={() => {
-          Modal.alert('关于', <AboutContent />);
-        }}>关于</Button>
+          navigation.navigate('Settings');
+        }}>设置</Button>
       </SafeAreaView>
     </Provider>);
 };

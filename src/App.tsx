@@ -9,6 +9,7 @@ import { NavigationProps, StackLoggedInParamList, StackNotLoggedInParamList } fr
 import { LoggedInContext } from './context/LoggedInContext.ts';
 import { NavigationContainer } from '@react-navigation/native';
 import altcampusservice from '@creeper12356/altcampuslifeservice';
+import SettingsPage from './page/SettingsPage.tsx';
 const StackLoggedIn = createNativeStackNavigator<StackLoggedInParamList>();
 const StackNotLoggedIn = createNativeStackNavigator<StackNotLoggedInParamList>();
 
@@ -54,6 +55,7 @@ function App(): React.JSX.Element {
       />
       <StackLoggedIn.Screen name="Debug" component={DebugPage} />
       <StackLoggedIn.Screen name="Camera" component={CameraPage} />
+      <StackLoggedIn.Screen name="Settings" component={SettingsPage} />
     </StackLoggedIn.Navigator>
   );
   const pagesNotLoggedIn = (
