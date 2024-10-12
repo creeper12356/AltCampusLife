@@ -1,15 +1,18 @@
 import { Button, Input, Provider, Toast, View } from "@ant-design/react-native";
-import { useState } from "react";
-import { SafeAreaView, Text } from "react-native";
+import { useEffect, useState } from "react";
+import { Platform, SafeAreaView, Text } from "react-native";
 import { doCharge, getChargeList, getChargeRecords, getPriceInfo } from "../service/charge";
 // import Clipboard from "@react-native-community/clipboard";
 import Alipay from '@uiw/react-native-alipay';
 import { payApplyReturn, payApply as payapply } from "../service/pay";
-import { getJacount, getAccountInfo} from "../service/user";
+import { getJacount, getAccountInfo } from "../service/user";
 import { messageOk } from "../utils/message";
+import { RouteProp } from "@react-navigation/native";
+import { NavigationProps, StackLoggedInParamList } from "./RootStackParamList";
 
-const DebugPage = () => {
+const DebugPage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, navigation: NavigationProps }) => {
     const [qrcode, setQrcode] = useState<string>('');
+
 
     const handleResponse = (result: any) => {
         let resultString = JSON.stringify(result);
@@ -20,9 +23,11 @@ const DebugPage = () => {
         <Provider>
             <SafeAreaView>
                 <Text>Debug</Text>
+                <Text>运行环境：{Platform.OS} {Platform.Version}</Text>
                 <View>
                     <Input
                         value={qrcode}
+                        placeholder="qrcode"
                         onChange={(e) => {
                             setQrcode(e.nativeEvent.text);
                         }} />
