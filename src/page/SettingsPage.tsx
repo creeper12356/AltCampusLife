@@ -4,17 +4,21 @@
 
 import { List, Modal, Provider, View } from "@ant-design/react-native";
 import { RouteProp } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Alert, Linking, Platform, ScrollView, Text } from "react-native";
 import * as Progress from 'react-native-progress';
 import * as UpdateAPK from "rn-update-apk";
 import { version } from '../../package.json';
 import { messageError, messageOk } from "../utils/message";
 import { NavigationProps, StackLoggedInParamList } from "./RootStackParamList";
+import { StylesContext } from "../context/StylesContext";
 const SettingsPage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, navigation: NavigationProps }) => {
     const [updater, setUpdater] = useState(null);
     const [downloadProgress, setDownloadProgress] = useState<number>(0);
     const [isDownloading, setDownloading] = useState<boolean>(false);
+
+    const {styles, setStyles} = useContext(StylesContext);
+
     useEffect(() => {
         setUpdater(new UpdateAPK.UpdateAPK({
 
@@ -43,7 +47,7 @@ const SettingsPage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>
                 Modal.alert(
                     "版本更新",
                     <View>
-                        <Text style={{fontSize: 15, color: 'black'}}>新版本已发布，您希望更新吗？</Text>
+                        <Text style={{ fontSize: 15, color: 'black' }}>新版本已发布，您希望更新吗？</Text>
                         <Text>---what's new---</Text>
                         <Text>{whatsNew}</Text>
                     </View>,
@@ -99,33 +103,32 @@ const SettingsPage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>
             updater.checkUpdate();
         }
     }
-    return <Provider>
-        <ScrollView keyboardShouldPersistTaps="handled">
-            <List
-                renderHeader="关于"
-            >
-                <List.Item extra={`v${version}`}>
-                    当前版本
-                </List.Item>
-                <List.Item onPress={() => {
-                    Linking.openURL('https://github.com/creeper12356/AltCampusLife');
-                }}>
-                    源代码仓库
-                </List.Item>
-                {Platform.OS === 'android' ?
-                    <List.Item onPress={handleCheckUpdate}>
-                        {isDownloading ? '下载apk进度...' : '检查更新'}
-                    </List.Item> : <></>
-                }
-                {Platform.OS === 'android' && isDownloading ?
-                    <List.Item>
-                        <Progress.Bar progress={downloadProgress / 100} width={null} />
-                        <Text>{downloadProgress} %</Text>
-                    </List.Item> : <></>
-                }
-            </List>
-        </ScrollView>
-    </Provider>
+    // @ts-ignore
+    return <ScrollView keyboardShouldPersistTaps="handled" style={styles.global}>
+        <List
+            renderHeader="关于"
+        >
+            <List.Item extra={`v${version}`}>
+                当前版本
+            </List.Item>
+            <List.Item onPress={() => {
+                Linking.openURL('https://github.com/creeper12356/AltCampusLife');
+            }}>
+                源代码仓库
+            </List.Item>
+            {Platform.OS === 'android' ?
+                <List.Item onPress={handleCheckUpdate}>
+                    {isDownloading ? '下载apk进度...' : '检查更新'}
+                </List.Item> : <></>
+            }
+            {Platform.OS === 'android' && isDownloading ?
+                <List.Item>
+                    <Progress.Bar progress={downloadProgress / 100} width={null} />
+                    <Text>{downloadProgress} %</Text>
+                </List.Item> : <></>
+            }
+        </List>
+    </ScrollView>
 };
 
 
