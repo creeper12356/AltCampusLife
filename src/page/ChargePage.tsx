@@ -1,4 +1,4 @@
-import { Button, Icon, InputItem, List, Text } from '@ant-design/react-native';
+import { Button, Icon, Input, InputItem, List, Text } from '@ant-design/react-native';
 import { RouteProp } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from 'react';
 import { AppState, PermissionsAndroid, SafeAreaView, View } from 'react-native';
@@ -113,15 +113,18 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
     <SafeAreaView style={{ justifyContent: 'space-between', flex: 1, ...styles.global }}>
       <View>
         <List renderHeader="充电">
-          <InputItem
-            autoFocus={false}
-            type="number"
-            onChangeText={(text) => {
-              setQRCode(text);
-            }}
-            value={qrcode}
-            placeholder="输入序列号后8位"
-          />
+          <List.Item>
+            <Input
+              allowClear={{ clearIcon: <Icon name="close-circle" /> }}
+              autoFocus={false}
+              type="number"
+              onChangeText={(text) => {
+                setQRCode(text);
+              }}
+              value={qrcode}
+              placeholder="输入序列号后8位"
+            />
+          </List.Item>
           <List.Item>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
               <Button type="primary" onPress={handleDoChargeClicked}>
@@ -149,14 +152,17 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
               <Text style={styles.balanceText}>{accountInfo?.acbalance}</Text>
             </View>
           </List.Item>
-          <InputItem
-            type="number"
-            onChangeText={(text) => {
-              setPayMoneyStr(text);
-            }}
-            value={payMoneyStr}
-            placeholder="输入充值金额"
-          />
+          <List.Item>
+            <Input
+              allowClear={{ clearIcon: <Icon name="close-circle" /> }}
+              type="number"
+              onChangeText={(text) => {
+                setPayMoneyStr(text);
+              }}
+              value={payMoneyStr}
+              placeholder="输入充值金额"
+            />
+          </List.Item>
           <List.Item>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
               <Button type='ghost' onPress={() => { setPayMoneyStr('1.5'); }}>1.5</Button>
@@ -177,7 +183,7 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
           </List.Item>
         </List>
       </View>
-      <Button onPress={() => {
+      <Button type='ghost' onPress={() => {
         navigation.navigate('Settings');
       }}>设置</Button>
     </SafeAreaView>);

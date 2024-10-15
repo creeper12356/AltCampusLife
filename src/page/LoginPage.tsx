@@ -1,5 +1,7 @@
 import {
   Button,
+  Icon,
+  Input,
   InputItem,
   List
 } from '@ant-design/react-native';
@@ -58,20 +60,20 @@ const LoginPage = () => {
               borderWidth: 1,
               borderRadius: 15,
             }}>
-            <InputItem
-              clear
+            <Input
+              allowClear={{clearIcon: <Icon name="close-circle" />}}
               type="text"
               value={username}
-              onChange={(value: string) => {
+              onChangeText={(value: string) => {
                 setUsername(value);
               }}
               placeholder={'账号'}
             />
-            <InputItem
-              clear
+            <Input
+              allowClear={{clearIcon: <Icon name="close-circle" />}}
               type="password"
               value={password}
-              onChange={(value: string) => {
+              onChangeText={(value: string) => {
                 setPassword(value);
               }}
               placeholder={'密码'}

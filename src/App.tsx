@@ -3,7 +3,9 @@ import altcampusservice from '@creeper12356/altcampuslifeservice';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
+import { StyleSheet, useColorScheme } from 'react-native';
 import { LoggedInContext } from './context/LoggedInContext.ts';
+import { StylesContext } from './context/StylesContext.ts';
 import { ThemeContext } from './context/ThemeContext.ts';
 import CameraPage from './page/CameraPage.tsx';
 import ChargePage from './page/ChargePage.tsx';
@@ -12,16 +14,16 @@ import LoginPage from './page/LoginPage.tsx';
 import { NavigationProps, StackLoggedInParamList, StackNotLoggedInParamList } from './page/RootStackParamList.ts';
 import SettingsPage from './page/SettingsPage.tsx';
 import { darkAntdTheme, lightAntdTheme } from './theme/default.tsx';
-import { StyleSheet } from 'react-native';
-import { StylesContext } from './context/StylesContext.ts';
 
 const StackLoggedIn = createNativeStackNavigator<StackLoggedInParamList>();
 const StackNotLoggedIn = createNativeStackNavigator<StackNotLoggedInParamList>();
 
 function App(): React.JSX.Element {
   const [isLoggedIn, setLoggedIn] = useState(true);
-  const [theme, setTheme] = useState<object>(darkAntdTheme);
+  const [theme, setTheme] = useState<object>(lightAntdTheme);
   const [styles, setStyles] = useState<object>({});
+
+  const colorScheme = useColorScheme();
 
   useEffect(() => {
     // 当theme改变时，触发styles更新
@@ -49,6 +51,10 @@ function App(): React.JSX.Element {
       }
     }));
   }, [theme]);
+
+  useEffect(() => {
+    setTheme(colorScheme === 'light' ? lightAntdTheme : darkAntdTheme);
+  }, [colorScheme]);
 
   // note: 设置isDebugMode为true开启调试页面
   const [isDebugMode, _] = useState(false);

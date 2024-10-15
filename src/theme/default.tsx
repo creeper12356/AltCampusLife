@@ -290,7 +290,7 @@ export const darkAntdTheme = {
     tab_bar_height: 50,
 
     // toast
-    toast_fill: 'rgba(0, 0, 0, .8)',
+    toast_fill: 'rgba(100, 100, 100, .8)',
 
     // search_bar
     search_bar_fill: '#efeff4',

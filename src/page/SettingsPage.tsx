@@ -2,22 +2,25 @@
 // 本文件中使用库rn-update-apk，用于Android版的自动更新。
 // 该库没有typescript文件，因此使用@ts-nocheck禁用类型报错。
 
-import { List, Modal, Provider, View } from "@ant-design/react-native";
+import { Form, List, Modal, Switch, View } from "@ant-design/react-native";
 import { RouteProp } from "@react-navigation/native";
 import { useContext, useEffect, useState } from "react";
-import { Alert, Linking, Platform, ScrollView, Text } from "react-native";
+import { Linking, Platform, ScrollView, Text } from "react-native";
 import * as Progress from 'react-native-progress';
 import * as UpdateAPK from "rn-update-apk";
 import { version } from '../../package.json';
+import { StylesContext } from "../context/StylesContext";
 import { messageError, messageOk } from "../utils/message";
 import { NavigationProps, StackLoggedInParamList } from "./RootStackParamList";
-import { StylesContext } from "../context/StylesContext";
+import { ThemeContext } from "../context/ThemeContext";
+import { darkAntdTheme, lightAntdTheme } from "../theme/default";
 const SettingsPage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, navigation: NavigationProps }) => {
     const [updater, setUpdater] = useState(null);
     const [downloadProgress, setDownloadProgress] = useState<number>(0);
     const [isDownloading, setDownloading] = useState<boolean>(false);
 
-    const {styles, setStyles} = useContext(StylesContext);
+    const { styles, setStyles } = useContext(StylesContext);
+    const { theme, setTheme } = useContext(ThemeContext);
 
     useEffect(() => {
         setUpdater(new UpdateAPK.UpdateAPK({
@@ -105,6 +108,19 @@ const SettingsPage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>
     }
     // @ts-ignore
     return <ScrollView keyboardShouldPersistTaps="handled" style={styles.global}>
+        {/* <Form
+            renderHeader="外观"
+        >
+            <Form.Item
+                label="夜间模式"
+                name="isDarkMode"
+                wrapperStyle={{ alignItems: 'flex-end' }}
+                valuePropName="checked">
+                <Switch onChange={(checked) => {
+                    setTheme(checked ? darkAntdTheme : lightAntdTheme);
+                }}/>
+            </Form.Item>
+        </Form> */}
         <List
             renderHeader="关于"
         >
