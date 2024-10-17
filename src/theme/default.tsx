@@ -12,7 +12,7 @@ export const lightAntdTheme = {
     // 文字色
     color_text_base: '#000000', // 基本
     color_text_base_inverse: '#ffffff', // 基本 _ 反色
-    color_text_placeholder: '#bbbbbb', // 文本框提示
+    color_text_placeholder: '#aaaaaa', // 文本框提示
     color_text_disabled: '#bbbbbb', // 失效
     color_text_caption: '#888888', // 辅助描述
     color_text_paragraph: '#333333', // 段落
@@ -201,7 +201,7 @@ export const darkAntdTheme = {
     brand_important: '#ff5b05', // 用于小红点
 
     // 边框色
-    border_color_base: '#000000', // 基础的
+    border_color_base: '#2f2f2f', // 基础的
     border_color_thin: '#2f2f2f', // 更细的
 
     // 字体尺寸
