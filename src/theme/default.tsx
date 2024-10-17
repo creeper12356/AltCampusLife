@@ -201,8 +201,8 @@ export const darkAntdTheme = {
     brand_important: '#ff5b05', // 用于小红点
 
     // 边框色
-    border_color_base: '#dddddd', // 基础的
-    border_color_thin: '#eeeeee', // 更细的
+    border_color_base: '#000000', // 基础的
+    border_color_thin: '#2f2f2f', // 更细的
 
     // 字体尺寸
     // ---
