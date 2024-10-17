@@ -2,9 +2,8 @@
 > 东晟校园生活开源优化版
 
 ## 📝介绍
-AltCampusLife是一个开源的电动车充电客户端App，与东晟校园生活完全兼容，支持Android, iOS（如果有💰上架AppStore的话）。
-
-![altcampuslife](https://github.com/user-attachments/assets/e73f16d8-121c-4a3f-8c86-881eefa9469b)
+AltCampusLife是一个开源的电动车充电客户端App，与东晟校园生活完全兼容，支持Android, iOS（准备上架AppStore🍎）。
+![ic_launcher](https://github.com/user-attachments/assets/b1cfe3a4-8e45-4ceb-a8eb-dfe4af9f2afc)
 - 🤗集成扫码、充电、充值于一个页面，简单易用
 - 📷支持扫码充电，且可开启闪光灯
 - 🛜任何网络环境下均可使用，无需SJTU校园网
@@ -59,15 +58,16 @@ cd android/
 注：在Windows中，最后一步需要使用`./gradlew.bat`脚本，而不是`./gradlew`。
 构建后的apk文件位于`android/app/build/outputs/apk/release`目录。
 
-### iOS(TODO)
-
+### iOS
+**TODO**: 欢迎iOS编译成功的同学提出PR补充~
 
 ## 🎉致谢
 向在本项目开发过程中提供支持的工具/软件表示感谢：
+- [Visual Studio Code](https://code.visualstudio.com/)
 - [JADX](https://github.com/skylot/jadx)
 - [抓包精灵](https://github.com/huolizhuminh/NetWorkPacketCapture)
 - [easyappicon](https://easyappicon.com/)
 - [Apifox](https://apifox.com/)
+- [HTML Color Picker](https://www.w3schools.com/colors/colors_picker.asp)
 - ChatGPT & Copilot
-- VSCode
 - ...
