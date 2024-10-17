@@ -2,7 +2,7 @@
 // 本文件中使用库rn-update-apk，用于Android版的自动更新。
 // 该库没有typescript文件，因此使用@ts-nocheck禁用类型报错。
 
-import { Form, List, Modal, Switch, View } from "@ant-design/react-native";
+import { List, Modal, View } from "@ant-design/react-native";
 import { RouteProp } from "@react-navigation/native";
 import { useContext, useEffect, useState } from "react";
 import { Linking, Platform, ScrollView, Text } from "react-native";
@@ -10,10 +10,10 @@ import * as Progress from 'react-native-progress';
 import * as UpdateAPK from "rn-update-apk";
 import { version } from '../../package.json';
 import { StylesContext } from "../context/StylesContext";
+import { ThemeContext } from "../context/ThemeContext";
 import { messageError, messageOk } from "../utils/message";
 import { NavigationProps, StackLoggedInParamList } from "./RootStackParamList";
-import { ThemeContext } from "../context/ThemeContext";
-import { darkAntdTheme, lightAntdTheme } from "../theme/default";
+import DeviceInfo from "react-native-device-info";
 const SettingsPage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, navigation: NavigationProps }) => {
     const [updater, setUpdater] = useState(null);
     const [downloadProgress, setDownloadProgress] = useState<number>(0);
@@ -124,8 +124,11 @@ const SettingsPage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>
         <List
             renderHeader="关于"
         >
-            <List.Item extra={`v${version}`}>
+            <List.Item extra={'v' + DeviceInfo.getVersion()}>
                 当前版本
+            </List.Item>
+            <List.Item extra={DeviceInfo.getSystemName() + ' ' + DeviceInfo.getSystemVersion()}>
+                运行系统
             </List.Item>
             <List.Item onPress={() => {
                 Linking.openURL('https://github.com/creeper12356/AltCampusLife');
