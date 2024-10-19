@@ -87,6 +87,7 @@ const SettingsPage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>
 
             // This is called prior to the update. If you throw it will abort the update
             downloadApkEnd: () => {
+                // TODO: 下载完apk后，清除AsyncStorage
                 setDownloading(false);
                 setDownloadProgress(0);
             },

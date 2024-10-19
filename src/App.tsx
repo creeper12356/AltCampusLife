@@ -28,11 +28,17 @@ function App(): React.JSX.Element {
   const colorScheme = useColorScheme();
 
   const initApp = async () => {
-    setUserInfo({
-      username: await AsyncStorage.getItem('@user.username') ?? '',
-      phone: await AsyncStorage.getItem('@user.phone') ?? '',
-      avatar: await AsyncStorage.getItem('@user.avatar') ?? '',
-    })
+    let userInfo =
+    {
+      username: await AsyncStorage.getItem('@user.username'),
+      phone: await AsyncStorage.getItem('@user.phone'),
+      avatar: await AsyncStorage.getItem('@user.avatar'),
+    };
+    if (userInfo.username == null || userInfo.phone == null || userInfo.avatar == null) {
+      setUserInfo(null);
+    } else {
+      setUserInfo(userInfo as UserInfo);
+    }
   };
 
   useEffect(() => {
