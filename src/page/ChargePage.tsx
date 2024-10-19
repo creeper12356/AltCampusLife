@@ -1,20 +1,22 @@
-import { Button, Icon, Input, InputItem, List, Text } from '@ant-design/react-native';
+import { Button, Card, Icon, Input, InputItem, List, Text } from '@ant-design/react-native';
 import { RouteProp } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from 'react';
 import { AppState, PermissionsAndroid, SafeAreaView, View } from 'react-native';
-import { AccountInfoDataResult } from '../model/AccountInfoDataResult.ts';
-import { ChargeStatusDataResult } from '../model/ChargeStatusDataResult.ts';
+import { AccountInfo } from '../model/AccountInfo.ts';
+import { ChargeStatus } from '../model/ChargeStatus.ts';
 import { doCharge, getChargeStatus } from '../service/charge.ts';
 import { handleDoPay } from '../service/pay.ts';
 import { getAccountInfo } from '../service/user.ts';
 import { messageError, messageOk } from '../utils/message.ts';
 import { NavigationProps, StackLoggedInParamList } from './RootStackParamList.ts';
 import { StylesContext } from '../context/StylesContext.ts';
+import { UserInfoContext } from '../context/UserInfoContext.ts';
 
 const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, navigation: NavigationProps }) => {
   const [chargeStatusDataResult, setChargeStatusDataResult] =
-    useState<ChargeStatusDataResult | null>(null);
-  const [accountInfo, setAccountInfo] = useState<AccountInfoDataResult | null>(null);
+    useState<ChargeStatus | null>(null);
+  const [accountInfo, setAccountInfo] = useState<AccountInfo | null>(null);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const [qrcode, setQRCode] = useState('');
   const [payMoneyStr, setPayMoneyStr] = useState<string>('');
 
@@ -24,7 +26,7 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
     getChargeStatus()
       .then(result => {
         // @ts-ignore
-        setChargeStatusDataResult(result.data.result1[0] as ChargeStatusDataResult);
+        setChargeStatusDataResult(result.data.result1[0] as ChargeStatus);
       })
       .catch(e => {
         console.log(e);
@@ -35,7 +37,7 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
     getAccountInfo()
       .then(result => {
         //@ts-ignore
-        setAccountInfo(result.data.result1[0] as AccountInfoDataResult);
+        setAccountInfo(result.data.result1[0] as AccountInfo);
       })
       .catch(e => {
         console.log(e);
@@ -112,6 +114,13 @@ const ChargePage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, 
     // @ts-ignore
     <SafeAreaView style={{ justifyContent: 'space-between', flex: 1, ...styles.global }}>
       <View>
+        <Card>
+          <Card.Header
+            title={userInfo?.username}
+            thumbStyle={{ width: 30, height: 30 }}
+            thumb={userInfo?.avatar}
+          />
+        </Card>
         <List renderHeader="充电">
           <List.Item>
             <Input

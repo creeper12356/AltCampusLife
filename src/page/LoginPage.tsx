@@ -7,22 +7,31 @@ import {
 import { login } from '@creeper12356/altcampuslifeservice';
 import React, { useContext, useState } from 'react';
 import { Image, Text, View } from 'react-native';
-import { LoggedInContext } from '../context/LoggedInContext';
 import { StylesContext } from '../context/StylesContext';
+import { UserInfoContext } from '../context/UserInfoContext';
+import { UserInfo } from '../model/UserInfo';
 import { messageDuration, messageError, messageOk } from '../utils/message';
 
 const LoginPage = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const { setLoggedIn } = useContext(LoggedInContext);
   const { styles, setStyles } = useContext(StylesContext);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
 
+  const updateUserInfo = (dataResult: UserInfo) => {
+    setUserInfo({
+      username: dataResult.username,
+      phone: dataResult.phone,
+      avatar: dataResult.avatar,
+    });
+  }
   const handleLogin = (username: string, password: string) => {
     login(username, password)
       .then(result => {
         messageOk('登录成功！');
         setTimeout(() => {
-          setLoggedIn(true);
+          // @ts-ignore
+          updateUserInfo(result.data.result1[0] as UserInfo);
         }, messageDuration * 1000);
       })
       .catch(e => {
@@ -49,7 +58,7 @@ const LoginPage = () => {
       <Text style={{ alignSelf: 'center', fontSize: 20 }}>AltCampusLife</Text>
       <List>
         <View style={{ display: 'flex', gap: '20%' }}>
-          <List.Item style={{borderRadius: 10}}>
+          <List.Item style={{ borderRadius: 10 }}>
             <Input
               allowClear={{ clearIcon: <Icon name="close-circle" /> }}
               type="text"
@@ -60,7 +69,7 @@ const LoginPage = () => {
               placeholder={'账号'}
             />
           </List.Item>
-          <List.Item style={{borderRadius: 10}}>
+          <List.Item style={{ borderRadius: 10 }}>
             <Input
               allowClear={{ clearIcon: <Icon name="close-circle" /> }}
               type="password"

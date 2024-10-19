@@ -17,3 +17,14 @@ export const getJacount = async () => {
   });
   return result;
 };
+
+export const getMessage = async (username: string, phone: string) => {
+  const result = await postOrderWithUserId(USER_URL, {
+    ordertype: 'getmessage',
+    origin: 'cloud',
+    username: username,
+    acid: '0',
+    phone: phone,
+  });
+  return result;
+}

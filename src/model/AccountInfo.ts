@@ -1,4 +1,4 @@
-export interface AccountInfoDataResult {
+export interface AccountInfo {
     acbalance: string;
     jacountname: string;
     jacountno: string;

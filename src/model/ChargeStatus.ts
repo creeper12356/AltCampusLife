@@ -1,4 +1,4 @@
-export interface ChargeStatusDataResult {
+export interface ChargeStatus {
   chargestatus: string;
   position: string;
   bgtime: string;

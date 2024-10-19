@@ -1,17 +1,19 @@
 import { Button, Input, View } from "@ant-design/react-native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Platform, SafeAreaView, Text } from "react-native";
 import { doCharge, getChargeList, getChargeRecords, getPriceInfo } from "../service/charge";
 // import Clipboard from "@react-native-community/clipboard";
 import { RouteProp } from "@react-navigation/native";
 import Alipay from '@uiw/react-native-alipay';
 import { payApplyReturn, payApply as payapply } from "../service/pay";
-import { getAccountInfo, getJacount } from "../service/user";
+import { getAccountInfo, getJacount, getMessage } from "../service/user";
 import { messageOk } from "../utils/message";
 import { NavigationProps, StackLoggedInParamList } from "./RootStackParamList";
+import { UserInfoContext } from "../context/UserInfoContext";
 
 const DebugPage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, navigation: NavigationProps }) => {
     const [qrcode, setQrcode] = useState<string>('');
+    const { userInfo, setUserInfo } = useContext(UserInfoContext);
 
 
     const handleResponse = (result: any) => {
@@ -86,6 +88,18 @@ const DebugPage = ({ navigation }: { route: RouteProp<StackLoggedInParamList>, n
                             console.log(e);
                         })
                 }}>pay</Button>
+            </View>
+            <View>
+                <Button type="primary" onPress={() => {
+                    getMessage(userInfo!.username, userInfo!.phone)
+                        .then((result) => {
+                            messageOk(JSON.stringify(result));
+                        })
+                        .catch(e => {
+                            console.log(e);
+                        });
+
+                }}>getmessage</Button>
             </View>
         </SafeAreaView>);
 }

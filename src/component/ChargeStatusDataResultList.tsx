@@ -1,11 +1,11 @@
-import { ChargeStatusDataResult } from '../model/ChargeStatusDataResult.ts';
+import { ChargeStatus } from '../model/ChargeStatus.ts';
 import { List, Text } from '@ant-design/react-native';
 import React from 'react';
 
 const ChargeStatusDataResultList = ({
   result,
 }: {
-  result: ChargeStatusDataResult;
+  result: ChargeStatus;
 }) => {
   return (
     <List style={{alignSelf: 'flex-start', width: '100%'}}>

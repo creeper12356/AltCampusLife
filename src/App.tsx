@@ -1,12 +1,14 @@
 import { Button, Provider } from '@ant-design/react-native';
 import altcampusservice from '@creeper12356/altcampuslifeservice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, useColorScheme } from 'react-native';
-import { LoggedInContext } from './context/LoggedInContext.ts';
 import { StylesContext } from './context/StylesContext.ts';
 import { ThemeContext } from './context/ThemeContext.ts';
+import { UserInfoContext } from './context/UserInfoContext.ts';
+import { UserInfo } from './model/UserInfo.ts';
 import CameraPage from './page/CameraPage.tsx';
 import ChargePage from './page/ChargePage.tsx';
 import DebugPage from './page/DebugPage.tsx';
@@ -19,11 +21,19 @@ const StackLoggedIn = createNativeStackNavigator<StackLoggedInParamList>();
 const StackNotLoggedIn = createNativeStackNavigator<StackNotLoggedInParamList>();
 
 function App(): React.JSX.Element {
-  const [isLoggedIn, setLoggedIn] = useState(true);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [theme, setTheme] = useState<object>(lightAntdTheme);
   const [styles, setStyles] = useState<object>({});
 
   const colorScheme = useColorScheme();
+
+  const initApp = async () => {
+    setUserInfo({
+      username: await AsyncStorage.getItem('@user.username') ?? '',
+      phone: await AsyncStorage.getItem('@user.phone') ?? '',
+      avatar: await AsyncStorage.getItem('@user.avatar') ?? '',
+    })
+  };
 
   useEffect(() => {
     // 当theme改变时，触发styles更新
@@ -56,15 +66,34 @@ function App(): React.JSX.Element {
     setTheme(colorScheme === 'light' ? lightAntdTheme : darkAntdTheme);
   }, [colorScheme]);
 
-  // note: 设置isDebugMode为true开启调试页面
-  const [isDebugMode, _] = useState(false);
-  useEffect(() => {
-    altcampusservice.isLoggedIn()
-      .then(bl => {
-        setLoggedIn(bl);
-      });
 
-  }, [])
+  /**
+   * @brief 设置全局用户信息并持久化
+   * @param userInfo 不为空则设置并持久化，为空则清除持久化数据
+   */
+  const setUserInfoWrapper = (userInfo: UserInfo | null) => {
+    setUserInfo(userInfo);
+    if (userInfo) {
+      AsyncStorage.setItem('@user.username', userInfo.username);
+      AsyncStorage.setItem('@user.phone', userInfo.phone);
+      AsyncStorage.setItem('@user.avatar', userInfo.avatar);
+
+    } else {
+      AsyncStorage.removeItem('@user.username');
+      AsyncStorage.removeItem('@user.phone');
+      AsyncStorage.removeItem('@user.avatar');
+    }
+  };
+
+
+  useEffect(() => {
+    initApp();
+  }, []);
+
+
+  // NOTE: 设置isDebugMode为true开启调试页面
+  const [isDebugMode, _] = useState(false);
+
   const pagesLoggedIn = (
     <StackLoggedIn.Navigator>
       <StackLoggedIn.Screen
@@ -86,7 +115,7 @@ function App(): React.JSX.Element {
                 type="primary"
                 onPress={() => {
                   altcampusservice.logout();
-                  setLoggedIn(false);
+                  setUserInfoWrapper(null);
                 }}>
                 登出
               </Button>
@@ -158,16 +187,16 @@ function App(): React.JSX.Element {
       styles: styles,
       setStyles: setStyles,
     }}>
-      <LoggedInContext.Provider value={{
-        isLoggedIn: isLoggedIn,
-        setLoggedIn: setLoggedIn
+      <UserInfoContext.Provider value={{
+        userInfo: userInfo,
+        setUserInfo: setUserInfoWrapper,
       }}>
         <Provider theme={theme}>
           <NavigationContainer>
-            {isLoggedIn ? pagesLoggedIn : pagesNotLoggedIn}
+            {userInfo != null ? pagesLoggedIn : pagesNotLoggedIn}
           </NavigationContainer>
         </Provider>
-      </LoggedInContext.Provider>
+      </UserInfoContext.Provider>
     </StylesContext.Provider>
   </ThemeContext.Provider >
 }
